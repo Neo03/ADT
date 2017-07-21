@@ -11,3 +11,20 @@ insert' b (Node left a right)
   | b == a = Node left a right
   | b < a  = Node (insert' b left) a right
   | b > a  = Node left a (insert' b right)
+
+mapTree :: (a -> b) -> BinaryTree a -> BinaryTree b
+mapTree _ Leaf = Leaf
+mapTree f (Node left a right) =
+  Node undefined undefined undefined
+
+testTree' :: BinaryTree Integer
+testTree' = Node (Node Leaf 3 Leaf) 1 (Node Leaf 4 Leaf)
+
+mapExpected :: BinaryTree Integer
+mapExpected = Node (Node Leaf 4 Leaf) 2 (Node Leaf 5 Leaf)
+
+mapOkay :: IO()
+mapOkay =
+  if mapTree (+1) testTree' == mapExpected
+    then print "Test passed!"
+    else error "Test failed"
