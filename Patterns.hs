@@ -1,6 +1,8 @@
 module Patterns where
 
-import Data.Char (toUpper)
+import Data.Char (toUpper, isAlpha)
+import Data.List (groupBy)
+import Data.Function (on)
 
 isSubsequenceOf :: (Eq a) => [a] -> [a] -> Bool
 isSubsequenceOf [] [] = True
@@ -16,4 +18,10 @@ capitalizeWords xs = map f $ words xs
     f as@(s:st) = (as, toUpper s:st)
 
 capitalizeWord :: String -> String
-capitalizeWord = undefined
+capitalizeWord [] = []
+capitalizeWord (x:xs)
+  | isAlpha x  = toUpper x : xs
+  | otherwise  = x : capitalizeWord xs
+
+capitalizeParagraph :: String -> String
+capitalizeParagraph xs = concatMap capitalizeWord $ groupBy ((==)`on`(=='.')) xs
