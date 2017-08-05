@@ -4,7 +4,7 @@ import Data.Char
 import Data.String.Utils
 import Data.List
 import Data.Foldable
-
+import Data.Ord
 
 data DaPhone = DaPhone [String]
 
@@ -46,7 +46,8 @@ mostPopularLetter :: String -> Char
 mostPopularLetter = head . longest . group . sort
 
 longest :: [[a]] -> [a]
-longest = maximumBy(\x y -> compare (length x) (length y))
+--longest = maximumBy(\x y -> compare (length x) (length y))
+longest = maximumBy (comparing length)
 
 coolestLtr :: [String] -> Char
 coolestLtr = mostPopularLetter . filter isAlpha . concat
@@ -54,7 +55,7 @@ coolestLtr = mostPopularLetter . filter isAlpha . concat
 coolestWrd :: [String] -> String
 coolestWrd = head . longest . group . sort . words . join " "
 
-phone :: DaPhone 
+phone :: DaPhone
 phone = DaPhone keymap
 
 keymap = [
